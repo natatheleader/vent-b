@@ -30,6 +30,14 @@ model User {
 
     password_resets         PasswordReset[]
     profile                 Profile[]
+    post                    Post[]
+    sentment_count          Sentment_Count[]
+    comment_like            Comment_Like[]
+    comment_reply           Comment_Reply[]
+    replay_like             Replay_Like[]
+    report_post             Report_Post[]
+    report_comment          Report_Comment[]
+    report_replay           Report_Replay[]
 
     @@map("users")
 }
@@ -68,6 +76,197 @@ model Profile {
     updated_at              DateTime            @updatedAt
 
     @@map("profiles")
+}
+
+model Post {
+    id                      Int                 @id @default(autoincrement())
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    title                   String?             @db.VarChar(255)
+    detail                  String              @db.Text
+
+    anonumous               Boolean             @default(true)
+    comment                 Boolean             @default(true)
+    share                   Boolean             @default(true)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    comments                Comment[]
+    allowed_post_sentments  Allowed_Post_Sentment[]
+    report_post             Report_Post[]
+
+    @@map("posts")
+}
+
+model Comment {
+    id                      Int                 @id @default(autoincrement())
+
+    post_id                 Int                 
+    Post                    Post                @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+    comment                 String              @db.VarChar(255)
+    visible                 Boolean             @default(true)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    comment_like            Comment_Like[]
+    comment_reply           Comment_Reply[]
+    report_comment          Report_Comment[]
+
+    @@map("comments")
+}
+
+model Sentment {
+    id                      Int                 @id @default(autoincrement())
+
+    name                    String              @db.VarChar(255)
+    emoji                   String              @db.VarChar(255)
+    description             String              @db.VarChar(255)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    allowed_post_sentments  Allowed_Post_Sentment[]
+
+    @@map("sentments")
+}
+
+model Allowed_Post_Sentment {
+    id                      Int                 @id @default(autoincrement())
+
+    post_id                 Int                 
+    Post                    Post                @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+    sentment_id             Int                 
+    Sentment                Sentment            @relation(fields: [sentment_id], references: [id], onDelete: Cascade)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    sentment_count          Sentment_Count[]
+
+    @@map("allowed_post_sentments")
+}
+
+model Sentment_Count {
+    id                      Int                 @id @default(autoincrement())
+
+    allowed_sentment_id     Int                 
+    Allowed_Post_Sentment   Allowed_Post_Sentment            @relation(fields: [allowed_sentment_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("post_sentments")
+}
+
+model Comment_Like {
+    id                      Int                 @id @default(autoincrement())
+
+    comment_id              Int             
+    Comment                 Comment             @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("coment_likes")
+}
+
+model Comment_Reply {
+    id                      Int                 @id @default(autoincrement()) 
+
+    comment_id              Int             
+    Comment                 Comment             @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    replay                  String              @db.VarChar(255)   
+    visible                 Boolean             @default(true)   
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    reply_like              Replay_Like[]
+    report_replay           Report_Replay[]
+
+    @@map("comment_replys")
+}
+
+model Replay_Like {
+    id                      Int                 @id @default(autoincrement())
+
+    comment_replay_id       Int             
+    comment_reply           Comment_Reply       @relation(fields: [comment_replay_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("replay_likes")
+}
+
+model Report_Post {
+    id                      Int                 @id @default(autoincrement())
+
+    post_id                 Int                 
+    Post                    Post                @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    description             String              @db.VarChar(255)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("report_posts")
+}
+
+model Report_Comment {
+    id                      Int                 @id @default(autoincrement())
+
+    comment_id              Int             
+    Comment                 Comment             @relation(fields: [comment_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    description             String              @db.VarChar(255)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("report_comments")
+}
+
+model Report_Replay {
+    id                      Int                 @id @default(autoincrement())
+
+    comment_replay_id       Int             
+    comment_reply           Comment_Reply       @relation(fields: [comment_replay_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    description             String              @db.VarChar(255)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("report_replays")
 }
 
 enum Sex {
