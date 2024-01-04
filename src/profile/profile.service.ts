@@ -22,8 +22,6 @@ export class ProfileService {
         if (!profile) {
             const name = image.path.split('\\');
 
-            // const sign = this.zodiac_sign(day, month)
-
             try {
                 const profile = await this.prisma.profile.create({
                     data: {

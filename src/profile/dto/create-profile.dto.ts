@@ -19,12 +19,6 @@ export class CreateProfileDto {
     @IsString({message: 'Birth date must be a string'})
     date_of_birth:                  string
 
-    @IsString({message: 'Country must be a string'})
-    country:                        string
-
-    @IsString({message: 'City must be a string'})
-    city:                           string
-
     @IsString({message: 'Bio must be a string'})
     bio:                            string
 }
