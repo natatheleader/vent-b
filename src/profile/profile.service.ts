@@ -31,9 +31,6 @@ export class ProfileService {
                         last_name: createProfileDto.last_name,
                         sex: createProfileDto.sex,
                         date_of_birth: createProfileDto.date_of_birth,
-                        astro_sign: "test",//sign
-                        country: createProfileDto.country,
-                        city: createProfileDto.city,
                         bio: createProfileDto.bio,
                         profile_image: name[3],
                         user_id: user.id,
@@ -193,9 +190,6 @@ export class ProfileService {
                         last_name: updateProfileDto.last_name,
                         sex: updateProfileDto.sex,
                         date_of_birth: updateProfileDto.date_of_birth,
-                        astro_sign: "test",//sign
-                        country: updateProfileDto.country,
-                        city: updateProfileDto.city,
                         bio: updateProfileDto.bio,                       
                         user_id: user.id,
                     },
@@ -272,75 +266,5 @@ export class ProfileService {
                 'Can\'t delete while there is no profile. Please create a profile first.'
             )
         }
-    }
-
-    zodiac_sign(day, month) {
-        let astro_sign="";
-            
-        // checks month and date within the 
-        // valid range of a specified zodiac
-        if (month == "december"){                
-            if (day < 22)
-                astro_sign = "sagittarius";
-            else
-                astro_sign ="capricorn";
-        } else if (month == "january"){
-            if (day < 20)
-                astro_sign = "capricorn";
-            else
-                astro_sign = "aquarius";
-        } else if (month == "february"){
-            if (day < 19)
-                astro_sign = "aquarius";
-            else
-                astro_sign = "pisces";
-        } else if(month == "march"){
-            if (day < 21) 
-                astro_sign = "pisces";
-            else
-                astro_sign = "aries";
-        } else if (month == "april"){
-            if (day < 20)
-                astro_sign = "aries";
-            else
-                astro_sign = "taurus";
-        } else if (month == "may"){
-            if (day < 21)
-                astro_sign = "taurus";
-            else
-                astro_sign = "gemini";
-        } else if( month == "june"){
-            if (day < 21)
-                astro_sign = "gemini";
-            else
-                astro_sign = "cancer";
-        } else if (month == "july"){
-            if (day < 23)
-                astro_sign = "cancer";
-            else
-                astro_sign = "leo";
-        } else if( month == "august"){
-            if (day < 23) 
-                astro_sign = "leo";
-            else
-                astro_sign = "virgo";
-        } else if (month == "september"){
-            if (day < 23)
-                astro_sign = "virgo";
-            else
-                astro_sign = "libra";
-        } else if (month == "october"){
-            if (day < 23)
-                astro_sign = "libra";
-            else
-                astro_sign = "scorpio";
-        } else if (month == "november"){
-            if (day < 22)
-                astro_sign = "scorpio";
-            else
-                astro_sign = "sagittarius";
-        }
-                
-        return astro_sign;
     }
 }
