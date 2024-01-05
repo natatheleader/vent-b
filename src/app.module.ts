@@ -6,6 +6,12 @@ import { ConfigModule } from '@nestjs/config';
 import { MailModule } from './mail/mail.module';
 import { PreauthMiddleware } from './auth/middleware/preauth.middleware';
 import { ProfileModule } from './profile/profile.module';
+import { PostModule } from './post/post.module';
+import { CommentModule } from './comment/comment.module';
+import { SentmentModule } from './sentment/sentment.module';
+import { CommentReplayModule } from './comment-replay/comment-replay.module';
+import { LikeModule } from './like/like.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
     imports: [
@@ -16,7 +22,7 @@ import { ProfileModule } from './profile/profile.module';
         UserModule, 
         PrismaModule, 
         MailModule, 
-        ProfileModule,
+        ProfileModule, CommentModule, PostModule, SentmentModule, CommentReplayModule, LikeModule, ReportModule,
     ],
     providers: [],
 })
