@@ -4,6 +4,7 @@ import { UpdatePostDto } from './dto/update-post.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import { User } from '@prisma/client';
+import { isNotEmpty } from 'class-validator';
 
 @Injectable()
 export class PostService {
@@ -25,6 +26,16 @@ export class PostService {
             });
 
             if (post) {
+                if (isNotEmpty(createPostDto.options)) {
+                    createPostDto.options.forEach(async option => {
+                        const opt = await this.prisma.option.create({
+                            data: {
+                                option: option,
+                                post_id: post.id,
+                            }
+                        })
+                    });
+                }
                 return post;
             }
         } catch (error) {

@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from "class-validator"
+import { IsArray, IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator"
 
 export class CreatePostDto {
 
@@ -20,4 +20,8 @@ export class CreatePostDto {
 
     @IsBoolean()
     public:                 boolean
+
+    @IsArray()
+    @IsOptional()
+    options:                string[]
 }

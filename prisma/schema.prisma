@@ -38,6 +38,7 @@ model User {
     report_post             Report_Post[]
     report_comment          Report_Comment[]
     report_replay           Report_Replay[]
+    option_count            Option_Count[]
 
     @@map("users")
 }
@@ -98,6 +99,7 @@ model Post {
     // deleted                 Boolean             @default(false)
 
     comments                Comment[]
+    options                 Option[]
     allowed_post_sentments  Allowed_Post_Sentment[]
     report_post             Report_Post[]
 
@@ -121,6 +123,37 @@ model Comment {
     report_comment          Report_Comment[]
 
     @@map("comments")
+}
+
+model Option {
+    id                      Int                 @id @default(autoincrement())
+
+    post_id                 Int                 
+    Post                    Post                @relation(fields: [post_id], references: [id], onDelete: Cascade)
+
+    option                  String              @db.VarChar(255)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    option_count            Option_Count[]
+
+    @@map("options")
+}
+
+model Option_Count {
+    id                      Int                 @id @default(autoincrement())
+
+    option_id               Int             
+    Option                  Option             @relation(fields: [option_id], references: [id], onDelete: Cascade)
+
+    user_id                 String              @unique @db.VarChar(255)
+    User                    User                @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+    created_at              DateTime            @default(now())
+    updated_at              DateTime            @updatedAt
+
+    @@map("option_counts")
 }
 
 model Sentment {
@@ -182,7 +215,7 @@ model Comment_Like {
     created_at              DateTime            @default(now())
     updated_at              DateTime            @updatedAt
 
-    @@map("coment_likes")
+    @@map("comment_likes")
 }
 
 model Comment_Reply {
