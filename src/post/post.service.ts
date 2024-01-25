@@ -132,7 +132,15 @@ export class PostService {
         })
 
         if (post && post.user_id == user.id) {
-            // try soft delete
+            const deletePost = this.prisma.post.delete({
+                where: {
+                    id: id,
+                }
+            })
+
+            if (deletePost) {
+                return { 'message': 'Post Deleted Successfully.' }
+            }
         } else {
             throw new ForbiddenException(
                 'Can\'t delete. Please Try Again.'

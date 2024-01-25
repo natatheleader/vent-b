@@ -12,6 +12,8 @@ import { SentmentModule } from './sentment/sentment.module';
 import { CommentReplayModule } from './comment-replay/comment-replay.module';
 import { LikeModule } from './like/like.module';
 import { ReportModule } from './report/report.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { SoftDeleteMiddleware } from './prisma/soft-delete.middleware';
 
 @Module({
     imports: [
@@ -24,7 +26,12 @@ import { ReportModule } from './report/report.module';
         MailModule, 
         ProfileModule, CommentModule, PostModule, SentmentModule, CommentReplayModule, LikeModule, ReportModule,
     ],
-    providers: [],
+    providers: [
+        // {
+        //     provide: APP_INTERCEPTOR,
+        //     useClass: SoftDeleteMiddleware,
+        // },
+    ],
 })
 export class AppModule implements NestModule {
     configure(consumer: MiddlewareConsumer) {
